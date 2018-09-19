@@ -8,9 +8,9 @@ fi
 
 if which xcrun &>/dev/null; then
     flags=(xcrun -sdk macosx g++)
-    flags+=(-mmacosx-version-min=10.4)
-
-    for arch in i386 x86_64; do
+    flags+=(-mmacosx-version-min=10.9)
+#    flags=/usr/local/Cellar/gcc/7.2.0_1/bin/gcc-7
+    for arch in x86_64; do
         flags+=(-arch "${arch}")
     done
 else
@@ -20,8 +20,8 @@ fi
 flags+=(-I.)
 
 set -x
-"${flags[@]}" -c -std=c++11 -o ldid.o ldid.cpp
-"${flags[@]}" -o ldid ldid.o -x c lookup2.c -x c sha1.c
+"${flags[@]}" -c -stdlib=libc++ -o ldid.o ldid.cpp
+"${flags[@]}" -stdlib=libc++ -o ldid ldid.o -x c lookup2.c -x c sha1.c
 
-"${flags[@]}" -c -std=c++11 -o ldid2.o ldid2.cpp
-"${flags[@]}" -o ldid2 ldid2.o -x c lookup2.c -x c sha1.c -x c sha224-256.c
+"${flags[@]}" -c -stdlib=libc++ -o ldid2.o ldid2.cpp
+"${flags[@]}" -stdlib=libc++ -o ldid2 ldid2.o -x c lookup2.c -x c sha1.c -x c sha224-256.c
